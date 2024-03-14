@@ -1,5 +1,5 @@
 // import { createStore } from 'redux';
-import { configureStore }  from "@reduxjs/toolkit";
+import {configureStore, createReducer} from "@reduxjs/toolkit";
 import thunk from 'redux-thunk'
 import logger from 'redux-logger'
 
@@ -13,16 +13,22 @@ function add() {
 function minus() {
     return { type: MINUS }
 }
-function counter(state = { number: 0 }, action) {
-    switch (action.type) {
-        case ADD:
-            return {number:state.number+1}
-        case MINUS:
-            return {number:state.number-1}
-        default:
-            return state
-    }
-}
+// function counter(state = { number: 0 }, action) {
+//     switch (action.type) {
+//         case ADD:
+//             return {number:state.number+1}
+//         case MINUS:
+//             return {number:state.number-1}
+//         default:
+//             return state
+//     }
+// }
+
+const counter = createReducer({number: 0}, {
+    [add]: state => ({number: state.number+1}),
+    [minus]:state=>({number: state.number-1})
+})
+
 
 // var store = createStore(counter)
 const store = configureStore({
