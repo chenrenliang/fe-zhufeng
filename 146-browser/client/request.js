@@ -8,7 +8,7 @@ const network = require('./network.js');
 const render = require('./render.js');
 const gpu = require('./gpu.js');
 const host = 'localhost';
-const port = 8001;
+const port = 80;
 const loadingLinks = {};
 const loadingScripts = {};
 Array.prototype.top = function () {
@@ -59,6 +59,7 @@ network.on('request', function (options) {
 render.on('commitNavigation', function (response) {
     const headers = response.headers;
     const contentType = headers['content-type'];
+    console.log('reqponse', response.headers)
     if (contentType.indexOf('text/html') !== -1) {
         //1. 渲染进程把HTML转变为DOM树型结构
         const document = {type: 'document', attributes: {}, children: []};
@@ -149,7 +150,7 @@ render.on('commitNavigation', function (response) {
             parser.write(buffer.toString());
         });
         response.on('end', () => {
-            +Promise.all(Object.values(loadingScripts)).then(() => {
+            Promise.all(Object.values(loadingScripts)).then(() => {
                 //7.HTML接收接受完毕后通知主进程确认导航
                 main.emit('confirmNavigation');
                 //3. 通过stylesheet计算出DOM节点的样式
@@ -313,4 +314,4 @@ gpu.on('raster', (tile) => {
     gpu.bitMaps.push(bitMap);
 });
 //1.主进程接收用户输入的URL
-main.emit('request', {host, port, path: '/load.html'});
+main.emit('request', {host, port, path: '/index.html'});
