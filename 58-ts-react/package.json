@@ -1,0 +1,40 @@
+{
+  "name": "58-ts-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/react": "^18.2.73",
+    "@types/react-dom": "^18.2.22",
+    "@types/react-redux": "^7.1.33",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/react-swipe": "^6.0.4",
+    "@types/react-transition-group": "^4.4.10",
+    "@types/redux-logger": "^3.0.13",
+    "html-webpack-plugin": "^5.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.1.0",
+    "react-router-dom": "^6.22.3",
+    "react-swipe": "^6.0.4",
+    "react-transition-group": "^4.4.5",
+    "redux": "^5.0.1",
+    "redux-first-history": "^5.2.0",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^3.1.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
+  },
+  "devDependencies": {
+    "source-map-loader": "^5.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.3"
+  }
+}
