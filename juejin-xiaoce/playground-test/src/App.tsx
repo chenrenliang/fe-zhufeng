@@ -1,43 +1,41 @@
-import {useRef} from "react";
 import {transform} from "@babel/standalone";
+import {PluginObj} from "@babel/core";
 
 function App() {
 
-    const textareaRef = useRef<HTMLTextAreaElement>(null)
+    const code1 =`
+    function add(a, b) {
+        return a + b;
+    }
+    export { add };
+    `;
+
+    const url = URL.createObjectURL(new Blob([code1], { type: 'application/javascript'}))
+
+    const transformImportSourcePlugin: PluginObj = {
+        visitor: {
+            ImportDeclaration(path) {
+                path.node.source.value = url
+            }
+        }
+    }
+    const code = `import { add } from './add.ts'; console.log(add(2, 3));`
 
     function onClick() {
-        if(!textareaRef.current) return
-
-        const res = transform(textareaRef.current.value, {
+        const res = transform(code, {
             presets: ['react', 'typescript'],
-            filename: 'guang.tsx'
+            filename: 'guang.ts',
+            plugins: [transformImportSourcePlugin]
         })
 
         console.log(res.code)
     }
 
-    const code = `import { useEffect, useState } from "react";
-          function App() {
-            const [num, setNum] = useState(() => {
-              const num1 = 1 + 2;
-              const num2 = 2 + 3;
-              return num1 + num2
-            });
-          
-            return (
-              <div onClick={() => setNum((prevNum) => prevNum + 1)}>{num}</div>
-            );
-          }
-          
-          export default App;
-  `
-
     return (
-        <div>
-            <textarea ref={textareaRef} style={{width: '500px', height: '300px'}} defaultValue={code}></textarea>
-            <button onClick={onClick}>编译</button>
-        </div>
-    )
+       <div>
+           <button onClick={onClick}>编译</button>
+       </div>
+   )
 }
 
 export default  App
