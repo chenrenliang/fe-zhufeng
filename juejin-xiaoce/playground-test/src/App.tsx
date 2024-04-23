@@ -1,41 +1,47 @@
-import {transform} from "@babel/standalone";
-import {PluginObj} from "@babel/core";
+// import {Editor} from "@monaco-editor/react";
+//
+// function App() {
+//     const code =`import { useEffect, useState } from "react";
+//
+// function App() {
+//     const [num, setNum] = useState(() => {
+//         const num1 = 1 + 2;
+//         const num2 = 2 + 3;
+//         return num1 + num2
+//     });
+//
+//     return (
+//         <div onClick={() => setNum((prevNum) => prevNum + 1)}>{num}</div>
+//     );
+// }
+//
+// export default App;
+// `;
+//
+//     return <Editor height={'500px'} defaultLanguage={'javascript'} defaultValue={code} />
+// }
+//
+// export default  App
 
-function App() {
 
-    const code1 =`
-    function add(a, b) {
-        return a + b;
-    }
-    export { add };
-    `;
+import React from 'react'
 
-    const url = URL.createObjectURL(new Blob([code1], { type: 'application/javascript'}))
+import iframeRaw from '../public/iframe.html?raw';
 
-    const transformImportSourcePlugin: PluginObj = {
-        visitor: {
-            ImportDeclaration(path) {
-                path.node.source.value = url
-            }
-        }
-    }
-    const code = `import { add } from './add.ts'; console.log(add(2, 3));`
+const iframeUrl = URL.createObjectURL(new Blob([iframeRaw], { type: "text/html"}))
 
-    function onClick() {
-        const res = transform(code, {
-            presets: ['react', 'typescript'],
-            filename: 'guang.ts',
-            plugins: [transformImportSourcePlugin]
-        })
-
-        console.log(res.code)
-    }
-
+const Preview: React.FC = () => {
     return (
-       <div>
-           <button onClick={onClick}>编译</button>
-       </div>
-   )
+        <iframe
+            src={iframeUrl}
+            style={{
+                width: "100%",
+                height: '100%',
+                padding: 0,
+                border: 'none'
+            }}
+        />
+    )
 }
 
-export default  App
+export default Preview;
